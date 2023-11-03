@@ -15,7 +15,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
-            6.0.x
             7.0.x
             8.0.x
 
@@ -35,42 +34,34 @@ jobs:
         -p ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }}
         --store-password-in-clear-text
 
-    # DbEntity.Generator
+    # DbRequest.Generator
 
-    - name: Restore DbEntity.Generator
-      run: dotnet restore ./src/*/DbEntity.Generator.csproj
+    - name: Restore DbRequest.Generator
+      run: dotnet restore ./src/*/DbRequest.Generator.csproj
 
-    - name: Build DbEntity.Generator
-      run: dotnet build ./src/*/DbEntity.Generator.csproj --no-restore  -c Release
+    - name: Build DbRequest.Generator
+      run: dotnet build ./src/*/DbRequest.Generator.csproj --no-restore  -c Release
 
-    - name: Pack DbEntity.Generator
-      run: dotnet pack ./src/*/DbEntity.Generator.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack DbRequest.Generator
+      run: dotnet pack ./src/*/DbRequest.Generator.csproj --no-restore -o ~/nuget  -c Release
 
-    # DbEntity.Generator.Test
+    # DbRequest
 
-    - name: Restore DbEntity.Generator.Test
-      run: dotnet restore ./src/*/DbEntity.Generator.Test.csproj
-
-    - name: Test DbEntity.Generator.Test
-      run: dotnet test ./src/*/DbEntity.Generator.Test.csproj --no-restore  -c Release
-
-    # Api.Core.DbRequest
-
-    - name: Restore Api.Core.DbRequest
+    - name: Restore DbRequest
       run: dotnet restore ./src/*/DbRequest.csproj
 
-    - name: Build Api.Core.DbRequest
+    - name: Build DbRequest
       run: dotnet build ./src/*/DbRequest.csproj --no-restore  -c Release
 
-    - name: Pack Api.Core.DbRequest
+    - name: Pack DbRequest
       run: dotnet pack ./src/*/DbRequest.csproj --no-restore -o ~/nuget  -c Release
 
-    # Api.Core.DbRequest.Test
+    # DbRequest.Test
 
-    - name: Restore Api.Core.DbRequest.Test
+    - name: Restore DbRequest.Test
       run: dotnet restore ./src/*/DbRequest.Test.csproj
 
-    - name: Test Api.Core.DbRequest.Test
+    - name: Test DbRequest.Test
       run: dotnet test ./src/*/DbRequest.Test.csproj --no-restore  -c Release
 
     # Push

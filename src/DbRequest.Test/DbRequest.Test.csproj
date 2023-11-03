@@ -1,20 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
-    <RootNamespace>GarageGroup.Infra.Sql.Api.Core.Test</RootNamespace>
-    <AssemblyName>GarageGroup.Infra.Sql.Api.Core.DbQuery.Request.Test</AssemblyName>
+    <RootNamespace>GarageGroup.Infra.Sql.Api.Core.DbRequest.Test</RootNamespace>
+    <AssemblyName>GarageGroup.Infra.Sql.Api.Core.DbRequest.Test</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DbRequest\DbRequest.csproj" />
+    <ProjectReference Include="..\DbRequest.Generator\DbRequest.Generator.csproj" OutputItemType="Analyzer" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DeepEqual" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="Moq" Version="4.20.69" />
+    <PackageReference Include="PrimeFuncPack.UnitTest.Data" Version="3.0.0" />
+    <PackageReference Include="xunit" Version="2.6.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
