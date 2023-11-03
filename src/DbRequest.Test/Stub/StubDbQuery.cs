@@ -1,6 +1,6 @@
 using System;
 
-namespace GarageGroup.Infra.Sql.Api.Core.Test;
+namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
 internal sealed partial class StubDbQuery : IDbQuery
 {
