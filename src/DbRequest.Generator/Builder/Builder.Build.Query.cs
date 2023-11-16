@@ -18,23 +18,11 @@ partial class DbEntityBuilder
             metadata.BuildHeaderLine())
         .BeginCodeBlock()
         .AppendQueries(metadata)
-        .AppendEmptyLine()
-        .AppendDirective(
-            "#if NET6_0")
-        .AppendCodeLine(
-            $"private static class {InnerQueryBuilderClassName}")
-        .AppendInnerQueryBuilderBody(metadata)
-        .AppendDirective(
-            "#endif")
         .EndCodeBlock()
         .AppendEmptyLine()
-        .AppendDirective(
-            "#if NET7_0_OR_GREATER")
         .AppendCodeLine(
             $"file static class {InnerQueryBuilderClassName}")
         .AppendInnerQueryBuilderBody(metadata)
-        .AppendDirective(
-            "#endif")
         .Build();
 
     private static SourceBuilder AppendQueries(this SourceBuilder builder, DbEntityMetadata metadata)
