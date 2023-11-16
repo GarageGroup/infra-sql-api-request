@@ -4,13 +4,14 @@
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <RootNamespace>GarageGroup.Infra</RootNamespace>
     <AssemblyName>GarageGroup.Infra.Sql.Api.Core.DbRequest</AssemblyName>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DbRequest.Generator\DbRequest.Generator.csproj"
-                      PrivateAssets="contentfiles;build"
-                      SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\DbRequest.Generator\DbRequest.Generator.csproj">
+      <PrivateAssets>contentfiles; build</PrivateAssets>
+      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
