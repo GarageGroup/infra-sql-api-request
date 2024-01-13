@@ -2,18 +2,8 @@ using System;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-internal sealed partial class StubDbFilter : IDbFilter
+internal sealed partial class StubDbFilter(string sqlQuery, params DbParameter[] parameters) : IDbFilter
 {
-    private readonly string sqlQuery;
-
-    private readonly FlatArray<DbParameter> parameters;
-
-    public StubDbFilter(string sqlQuery, params DbParameter[] parameters)
-    {
-        this.sqlQuery = sqlQuery;
-        this.parameters = parameters;
-    }
-
     public string GetFilterSqlQuery()
         =>
         sqlQuery;

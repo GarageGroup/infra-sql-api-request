@@ -11,4 +11,16 @@ partial class DbDeleteQueryTest
         var actual = source.GetSqlQuery();
         Assert.Equal(expected, actual);
     }
+
+    public static TheoryData<DbDeleteQuery, string> SqlQueryTestData
+        =>
+        new()
+        {
+            {
+                new(
+                    tableName: "Country",
+                    filter: new StubDbFilter("Id = 15")),
+                "DELETE FROM Country WHERE Id = 15;"
+            }
+        };
 }

@@ -14,4 +14,25 @@ partial class DbFieldFilterTest
 
         Assert.StrictEqual(expected, actual);
     }
+
+    public static TheoryData<DbFieldFilter> FilterParametersTestData
+        =>
+        new()
+        {
+            {
+                new("Id", DbFilterOperator.Equal, "73")
+            },
+            {
+                new("Id", DbFilterOperator.Greater, string.Empty)
+            },
+            {
+                new("Value", DbFilterOperator.Equal, "(SELECT COUNT(*) FROM Country)")
+            },
+            {
+                new("Name", DbFilterOperator.Inequal, "true")
+            },
+            {
+                new("value", (DbFilterOperator)(-3), "\"Some text\"")
+            }
+        };
 }

@@ -12,4 +12,24 @@ partial class DbDeleteQueryTest
         var actual = source.GetParameters();
         Assert.StrictEqual(expected, actual);
     }
+
+    public static TheoryData<DbDeleteQuery, FlatArray<DbParameter>> ParametersTestData
+        =>
+        new()
+        {
+            {
+                new(
+                    tableName: "Country",
+                    filter: new StubDbFilter("Id = 15")),
+                default
+            },
+            {
+                new(
+                    tableName: "Country",
+                    filter: new StubDbFilter("Price > 0", new("Price", 25), new("Id", null))),
+                new(
+                    new("Price", 25),
+                    new("Id", null))
+            }
+        };
 }

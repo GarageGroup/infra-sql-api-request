@@ -2,18 +2,8 @@ using System;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-internal sealed partial class StubDbQuery : IDbQuery
+internal sealed partial class StubDbQuery(string sqlQuery, params DbParameter[] parameters) : IDbQuery
 {
-    private readonly string sqlQuery;
-
-    private readonly FlatArray<DbParameter> parameters;
-
-    public StubDbQuery(string sqlQuery, params DbParameter[] parameters)
-    {
-        this.sqlQuery = sqlQuery;
-        this.parameters = parameters;
-    }
-
     public int? TimeoutInSeconds { get; init; }
 
     public string GetSqlQuery()

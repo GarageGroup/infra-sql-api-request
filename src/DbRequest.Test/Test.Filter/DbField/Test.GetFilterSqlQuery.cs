@@ -26,4 +26,38 @@ partial class DbFieldFilterTest
             =>
             source.GetFilterSqlQuery();
     }
+
+    public static TheoryData<DbFieldFilter, string> FilterSqlQueryTestData
+        =>
+        new()
+        {
+            {
+                new("Id", DbFilterOperator.Equal, "1"),
+                "Id = 1"
+            },
+            {
+                new("Id", DbFilterOperator.Greater, "\"Some value\""),
+                "Id > \"Some value\""
+            },
+            {
+                new("p.id", DbFilterOperator.GreaterOrEqual, "75.34"),
+                "p.id >= 75.34"
+            },
+            {
+                new("Name", DbFilterOperator.GreaterOrEqual, string.Empty),
+                "Name >= null"
+            },
+            {
+                new("Id", DbFilterOperator.Less, null!),
+                "Id < null"
+            },
+            {
+                new("value", DbFilterOperator.LessOrEqual, "(SELECT COUNT(*) FROM Country)"),
+                "value <= (SELECT COUNT(*) FROM Country)"
+            },
+            {
+                new("Id", DbFilterOperator.Inequal, "\t"),
+                "Id <> null"
+            }
+        };
 }

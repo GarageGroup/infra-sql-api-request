@@ -26,4 +26,42 @@ partial class DbParameterFilterTest
             =>
             source.GetFilterSqlQuery();
     }
+
+    public static TheoryData<DbParameterFilter, string> FilterSqlQueryTestData
+        =>
+        new()
+        {
+            {
+                new("Id", DbFilterOperator.Equal, 1),
+                "Id = @Id"
+            },
+            {
+                new("Id", DbFilterOperator.Equal, null),
+                "Id = @Id"
+            },
+            {
+                new("a.id", DbFilterOperator.Equal, "Some value", "p.Id"),
+                "a.id = @p.Id"
+            },
+            {
+                new("Price", DbFilterOperator.Greater, 104.51m, "Value"),
+                "Price > @Value"
+            },
+            {
+                new("Name", DbFilterOperator.GreaterOrEqual, "Some string", string.Empty),
+                "Name >= @Name"
+            },
+            {
+                new("Id", DbFilterOperator.Less, 11),
+                "Id < @Id"
+            },
+            {
+                new("value", DbFilterOperator.LessOrEqual, null),
+                "value <= @value"
+            },
+            {
+                new("Id", DbFilterOperator.Inequal, 1),
+                "Id <> @Id"
+            }
+        };
 }

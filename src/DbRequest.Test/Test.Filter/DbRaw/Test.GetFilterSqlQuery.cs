@@ -11,4 +11,28 @@ partial class DbRawFilterTest
         var actual = source.GetFilterSqlQuery();
         Assert.Equal(expected, actual);
     }
+
+    public static TheoryData<DbRawFilter, string> FilterSqlQueryTestData
+        =>
+        new()
+        {
+            {
+                new(null!),
+                string.Empty
+            },
+            {
+                new("SELECT * FROM Product"),
+                "SELECT * FROM Product"
+            },
+            {
+                new("SELECT * FROM Product")
+                {
+                    Parameters = new DbParameter[]
+                    {
+                        new("Param1", "Some value")
+                    }
+                },
+                "SELECT * FROM Product"
+            }
+        };
 }
