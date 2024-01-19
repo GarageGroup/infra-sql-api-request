@@ -4,7 +4,7 @@
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <RootNamespace>GarageGroup.Infra</RootNamespace>
     <AssemblyName>GarageGroup.Infra.Sql.Api.Core.DbRequest</AssemblyName>
-    <Version>2.3.0-build.1</Version>
+    <Version>2.3.0-rc.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="GarageGroup.Infra.Sql.Api.Core.DbEntity" Version="2.0.0" />
-    <PackageReference Include="GarageGroup.Infra.Sql.Api.Core.DbQuery" Version="2.1.0-build.2" />
+    <PackageReference Include="GarageGroup.Infra.Sql.Api.Core.DbQuery" Version="2.1.0-rc.1" />
     <PackageReference Include="PrimeFuncPack.Primitives.Strings" Version="2.0.3" />
   </ItemGroup>
 

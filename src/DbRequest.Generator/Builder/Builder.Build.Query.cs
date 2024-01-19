@@ -78,95 +78,86 @@ partial class DbEntityBuilder
 
     private static SourceBuilder AppendQueryBuildMethod(this SourceBuilder builder, DbSelectQueryData queryData)
     {
-        builder = builder.AppendCodeLine($"public static DbSelectQuery {queryData.GetQueryBuildMethodName()}()").BeginCodeBlock();
-        var hasJoinedTables = queryData.JoinedTables.Any();
+        return builder = builder
+            .AppendCodeLine($"public static DbSelectQuery {queryData.GetQueryBuildMethodName()}()")
+            .BeginLambda()
+            .AppendCodeLine($"new({queryData.BuildDbSelectQueryArguments()})")
+            .BeginCodeBlock()
+            .AppendSelectQueryPropertyInitialization("SelectedFields", queryData.FieldNames.Select(InnerAsStringSourceCode).ToArray(), true)
+            .AppendSelectQueryPropertyInitialization("JoinedTables", queryData.JoinedTables.Select(InnerBuildSourceCode).ToArray(), false)
+            .AppendSelectQueryPropertyInitialization("GroupByFields", queryData.GroupByFields.Select(InnerAsStringSourceCode).ToArray(), true)
+            .EndCodeBlock(';')
+            .EndLambda();
 
-        if (queryData.FieldNames.Any() is false && hasJoinedTables is false)
-        {
-            return builder.AppendCodeLine($"return new({queryData.BuildDbSelectQueryArguments()});").EndCodeBlock();
-        }
+        static string InnerAsStringSourceCode(string fieldName)
+            =>
+            fieldName.AsStringSourceCodeOrStringEmpty();
 
-        builder = builder.AppendCodeLine($"return new({queryData.BuildDbSelectQueryArguments()})").BeginCodeBlock();
-
-        if (queryData.FieldNames.Count is 1)
-        {
-            builder = builder.AppendCodeLine($"SelectedFields = new({queryData.FieldNames[0].AsStringSourceCodeOrStringEmpty()}),");
-        }
-        else if (queryData.FieldNames.Count > 1)
-        {
-            builder = builder.AppendCodeLine("SelectedFields = InnerBuildSelectedFields(),");
-        }
-
-        if (hasJoinedTables)
-        {
-            builder = builder.AppendCodeLine("JoinedTables = InnerBuildJoinedTables(),");
-        }
-
-        if (queryData.GroupByFields.Count is 1)
-        {
-            builder = builder.AppendCodeLine($"GroupByFields = new({queryData.GroupByFields[0].AsStringSourceCodeOrStringEmpty()})");
-        }
-        else if (queryData.GroupByFields.Count > 1)
-        {
-            builder = builder.AppendCodeLine("GroupByFields = InnerBuildGroupByFields()");
-        }
-
-        builder = builder.EndCodeBlock(';');
-
-        if (queryData.FieldNames.Count > 1)
-        {
-            builder = builder
-                .AppendEmptyLine()
-                .AppendCodeLine("static FlatArray<string> InnerBuildSelectedFields()")
-                .BeginCodeBlock()
-                .AppendCodeLine($"var builder = FlatArray<string>.Builder.OfLength({queryData.FieldNames.Count});");
-
-            for (var i = 0; i < queryData.FieldNames.Count; i++)
-            {
-                builder = builder.AppendCodeLine($"builder[{i}] = {queryData.FieldNames[i].AsStringSourceCodeOrStringEmpty()};");
-            }
-
-            builder = builder.AppendCodeLine("return builder.MoveToFlatArray();").EndCodeBlock();
-        }
-
-        if (hasJoinedTables)
-        {
-            builder = builder
-                .AppendEmptyLine()
-                .AppendCodeLine("static FlatArray<DbJoinedTable> InnerBuildJoinedTables()")
-                .BeginCodeBlock()
-                .AppendCodeLine($"var builder = FlatArray<DbJoinedTable>.Builder.OfLength({queryData.JoinedTables.Count});");
-
-            for (var i = 0; i < queryData.JoinedTables.Count; i++)
-            {
-                builder = builder.AppendCodeLine($"builder[{i}] = {queryData.JoinedTables[i].BuildDbJoinedTableSourceCode()};");
-            }
-
-            builder = builder.AppendCodeLine("return builder.MoveToFlatArray();").EndCodeBlock();
-        }
-
-        if (queryData.GroupByFields.Count > 1)
-        {
-            builder = builder
-                .AppendEmptyLine()
-                .AppendCodeLine("static FlatArray<string> InnerBuildGroupByFields()")
-                .BeginCodeBlock()
-                .AppendCodeLine($"var builder = FlatArray<string>.Builder.OfLength({queryData.GroupByFields.Count});");
-
-            for (var i = 0; i < queryData.GroupByFields.Count; i++)
-            {
-                builder = builder.AppendCodeLine($"builder[{i}] = {queryData.GroupByFields[i].AsStringSourceCodeOrStringEmpty()};");
-            }
-
-            builder = builder.AppendCodeLine("return builder.MoveToFlatArray();").EndCodeBlock();
-        }
-
-        return builder.EndCodeBlock();
+        string InnerBuildSourceCode(DbJoinData dbJoinData)
+            =>
+            dbJoinData.BuildDbJoinedTableSourceCode(withTypeName: queryData.JoinedTables.Count is 1);
     }
 
-    private static string BuildDbJoinedTableSourceCode(this DbJoinData dbJoinData)
+    private static SourceBuilder AppendSelectQueryPropertyInitialization(
+        this SourceBuilder builder, string propertyName, string[] codeLines, bool isStringType)
     {
-        var builder = new StringBuilder("new(");
+        if (codeLines.Length is 0)
+        {
+            return builder;
+        }
+
+        if (codeLines.Length is 1)
+        {
+            return isStringType switch
+            {
+                true => builder.AppendCodeLine($"{propertyName} = new({codeLines[0]}),"),
+                _ => builder.AppendCodeLine($"{propertyName} = {codeLines[0]}.AsFlatArray(),")
+            };
+        }
+
+        var lastLineIndex = codeLines.Length - 1;
+
+        if (codeLines.Length <= 16)
+        {
+            return builder.AppendSelectQueryPropertyInitializationWithFlatArrayConstructor(propertyName, codeLines);
+        }
+
+        builder = builder
+            .AppendDirective("#if NET8_0_OR_GREATER")
+            .AppendCodeLine($"{propertyName} =")
+            .BeginCollectionExpression();
+
+        for (var i = 0; i < lastLineIndex; i++)
+        {
+            builder = builder.AppendCodeLine(codeLines[i] + ",");
+        }
+
+        return  builder
+            .AppendCodeLine(codeLines[lastLineIndex])
+            .EndCollectionExpression(',')
+            .AppendDirective("#else")
+            .AppendSelectQueryPropertyInitializationWithFlatArrayConstructor(propertyName, codeLines)
+            .AppendDirective("#endif");
+    }
+
+    private static SourceBuilder AppendSelectQueryPropertyInitializationWithFlatArrayConstructor(
+        this SourceBuilder builder, string propertyName, string[] codeLines)
+    {
+        var lastLineIndex = codeLines.Length - 1;
+        builder = builder.AppendCodeLine($"{propertyName} = new(").BeginArguments();
+
+        for (var i = 0; i < codeLines.Length; i++)
+        {
+            var lastSymbol = i < lastLineIndex ? "," : "),";
+            builder = builder.AppendCodeLine(codeLines[i] + lastSymbol);
+        }
+
+        return builder.EndArguments();
+    }
+
+    private static string BuildDbJoinedTableSourceCode(this DbJoinData dbJoinData, bool withTypeName)
+    {
+        var builder = withTypeName ? new StringBuilder("new DbJoinedTable(") : new StringBuilder("new(");
 
         builder = dbJoinData.JoinType switch
         {
