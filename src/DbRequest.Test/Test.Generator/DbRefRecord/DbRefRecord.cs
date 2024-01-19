@@ -5,7 +5,7 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
 [DbEntity("Product", "p")]
 [DbJoin(DbJoinType.Inner, "Unit", "u", "u.Id = p.UnitId")]
-public sealed partial record class DbRefRecord
+internal sealed partial record class DbRefRecord
 {
     [DbSelect("QueryAll", GroupBy = true)]
     [DbSelect("QueryId", FieldName = "p.Id")]

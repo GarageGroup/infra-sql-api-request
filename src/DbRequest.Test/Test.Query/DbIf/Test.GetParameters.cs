@@ -12,4 +12,27 @@ partial class DbIfQueryTest
         var actual = source.GetParameters();
         Assert.StrictEqual(expected, actual);
     }
+
+    public static TheoryData<DbIfQuery, FlatArray<DbParameter>> ParametersTestData
+        =>
+        new()
+        {
+            {
+                new(
+                    condition: new StubDbFilter("Id = @Id"),
+                    thenQuery: new StubDbQuery("SELECT * FROM Country")),
+                default
+            },
+            {
+                new(
+                    condition: new StubDbFilter("Id = @Id", new("Id", null), new("Name", "SomeName")),
+                    thenQuery: new StubDbQuery("SELECT * FROM Country", new DbParameter("SomeParameter", 200)),
+                    elseQuery: new StubDbQuery("SELECT Price, Name FROM Product WHERE Price > @Price", new DbParameter("Price", 1000))),
+                new(
+                    new("Id", null),
+                    new("Name", "SomeName"),
+                    new("SomeParameter", 200),
+                    new("Price", 1000))
+            }
+        };
 }
