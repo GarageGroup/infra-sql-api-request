@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
     <RootNamespace>GarageGroup.Infra.Sql.Api.Core.DbRequest.Test</RootNamespace>
@@ -15,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DeepEqual" Version="4.2.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="DeepEqual" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="PrimeFuncPack.UnitTest.Data" Version="3.1.0" />
     <PackageReference Include="xunit" Version="2.6.6" />

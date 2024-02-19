@@ -16,6 +16,5 @@ partial class DbQueryExtensions
 
     internal static FlatArray<DbParameter> BuildFilterParameters(this DbLikeFilter filter)
         =>
-        new(
-            new DbParameter(filter.ParameterName, filter.FieldValue));
+        new DbParameter(filter.ParameterName, filter.FieldValue).AsFlatArray();
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GarageGroup.Infra;
@@ -14,8 +13,8 @@ internal sealed record class DbEntityMetadata
     {
         FileName = fileName;
         EntityType = entityType;
-        Fields = fields ?? Array.Empty<DbFieldMetadata>();
-        SelectQueries = selectQueries ?? Array.Empty<DbSelectQueryData>();
+        Fields = fields ?? [];
+        SelectQueries = selectQueries ?? [];
         ExtensionField = extensionField;
     }
 

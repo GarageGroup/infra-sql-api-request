@@ -42,13 +42,13 @@ partial class DbQueryExtensions
             return default;
         }
 
-        var dbParameters = new DbParameter[filter.FieldValues.Length];
+        var dbParameters = FlatArray<DbParameter>.Builder.OfLength(filter.FieldValues.Length);
 
         for (var index = 0; index < filter.FieldValues.Length; index++)
         {
             dbParameters[index] = new(filter.ParameterPrefix + index, filter.FieldValues[index]);
         }
 
-        return dbParameters;
+        return dbParameters.MoveToFlatArray();
     }
 }

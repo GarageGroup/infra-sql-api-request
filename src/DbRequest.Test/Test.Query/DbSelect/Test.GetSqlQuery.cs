@@ -94,7 +94,7 @@ partial class DbSelectQueryTest
                 {
                     JoinedTables = new DbJoinedTable[]
                     {
-                        new(DbJoinType.Inner, "Translation", "t", new StubDbFilter("t.PropertyId = p.Id"))
+                        new(DbJoinType.Inner, "Translation", "t", "t.PropertyId = p.Id")
                     }
                 },
                 "SELECT * FROM Property p INNER JOIN Translation t ON t.PropertyId = p.Id"
@@ -105,7 +105,7 @@ partial class DbSelectQueryTest
                     Filter = new StubDbFilter("p.Id > @Id", new DbParameter("Id", 15)),
                     JoinedTables = new DbJoinedTable[]
                     {
-                        new(DbJoinType.Left, "Translation", "t", new StubDbFilter("t.PropertyId = p.Id")),
+                        new(DbJoinType.Left, "Translation", "t", "t.PropertyId = p.Id"),
                         new(DbJoinType.Right, "City", "c", new StubDbFilter("c.Id <> p.CityId"))
                     }
                 },

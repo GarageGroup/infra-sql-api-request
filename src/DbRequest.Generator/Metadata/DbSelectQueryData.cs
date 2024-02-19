@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GarageGroup.Infra;
@@ -14,9 +13,9 @@ internal sealed record class DbSelectQueryData
     {
         QueryName = queryName ?? string.Empty;
         TableData = tableData;
-        JoinedTables = joinedTables ?? Array.Empty<DbJoinData>();
-        FieldNames = fieldNames ?? Array.Empty<string>();
-        GroupByFields = groupByFields ?? Array.Empty<string>();
+        JoinedTables = joinedTables ?? [];
+        FieldNames = fieldNames ?? [];
+        GroupByFields = groupByFields ?? [];
     }
 
     public string QueryName { get; }

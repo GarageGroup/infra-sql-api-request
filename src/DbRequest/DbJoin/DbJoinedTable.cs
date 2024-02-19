@@ -12,12 +12,14 @@ public sealed record class DbJoinedTable
         Filter = filter;
     }
 
+    public DbJoinedTable(DbJoinType type, string tableName, string tableAlias, string rawFilter)
+        : this(type, tableName, tableAlias, new DbRawFilter(rawFilter))
+    {
+    }
+
     public DbJoinType Type { get; }
 
     public string TableName { get; }
-
-    [Obsolete("Use TableAlias instead")]
-    public string? ShortName => TableAlias;
 
     public string? TableAlias { get; }
 
