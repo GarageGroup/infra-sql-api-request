@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace GarageGroup.Infra;
@@ -51,24 +50,10 @@ partial class DbQueryExtensions
 
     internal static FlatArray<DbParameter> BuildFilterParameters(this DbCombinedFilter filter)
     {
-        if (filter.Filters.IsEmpty)
-        {
-            return default;
-        }
+        return filter.Filters.FlatMap(GetParameters);
 
-        var list = new List<DbParameter>();
-
-        foreach (var innerFilter in filter.Filters)
-        {
-            var filterParameters = innerFilter.GetFilterParameters();
-            if (filterParameters.IsEmpty)
-            {
-                continue;
-            }
-
-            list.AddRange(filterParameters.AsEnumerable());
-        }
-
-        return list;
+        static FlatArray<DbParameter> GetParameters(IDbFilter innerFilter)
+            =>
+            innerFilter.GetFilterParameters();
     }
 }

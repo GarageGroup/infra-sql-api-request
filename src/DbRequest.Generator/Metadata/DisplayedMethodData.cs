@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GarageGroup.Infra;
@@ -7,7 +6,7 @@ internal sealed record class DisplayedMethodData
 {
     public DisplayedMethodData(IReadOnlyCollection<string> allNamespaces, string sourceCode)
     {
-        AllNamespaces = allNamespaces ?? Array.Empty<string>();
+        AllNamespaces = allNamespaces ?? [];
         SourceCode = sourceCode ?? string.Empty;
     }
 

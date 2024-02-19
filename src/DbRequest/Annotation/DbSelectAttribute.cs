@@ -3,20 +3,13 @@ using System;
 namespace GarageGroup.Infra;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-public sealed class DbSelectAttribute : Attribute
+public sealed class DbSelectAttribute(string queryName, string? tableName = null, string? fieldName = null) : Attribute
 {
-    public DbSelectAttribute(string queryName, string? tableName = null, string? fieldName = null)
-    {
-        QueryName = queryName.OrEmpty();
-        TableName = tableName.OrNullIfEmpty();
-        FieldName = fieldName.OrNullIfEmpty();
-    }
+    public string QueryName { get; } = queryName.OrEmpty();
 
-    public string QueryName { get; }
+    public string? TableName { get; set; } = tableName.OrNullIfEmpty();
 
-    public string? TableName { get; set; }
-
-    public string? FieldName { get; set; }
+    public string? FieldName { get; set; } = fieldName.OrNullIfEmpty();
 
     public bool GroupBy { get; set; }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace GarageGroup.Infra;
@@ -26,10 +24,10 @@ partial class DbQueryExtensions
 
     internal static FlatArray<DbParameter> BuildParameters(this DbCombinedQuery query)
     {
-        return query.Queries.AsEnumerable().SelectMany(GetParameters).ToFlatArray();
+        return query.Queries.FlatMap(GetParameters);
 
-        static IEnumerable<DbParameter> GetParameters(IDbQuery dbQuery)
+        static FlatArray<DbParameter> GetParameters(IDbQuery dbQuery)
             =>
-            dbQuery.GetParameters().AsEnumerable();
+            dbQuery.GetParameters();
     }
 }

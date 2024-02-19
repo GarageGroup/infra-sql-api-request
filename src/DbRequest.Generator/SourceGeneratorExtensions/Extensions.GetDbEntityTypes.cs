@@ -231,7 +231,7 @@ partial class SourceGeneratorExtensions
         (typeSymbol.IsSystemType("String"), typeSymbol.IsNullableType()) switch
         {
             (true, true)    => null,
-            (true, false)   => new(Array.Empty<string>(), "CastToString()"),
+            (true, false)   => new([], "CastToString()"),
             (false, false)  => typeSymbol.CreateCastToMethodData("CastTo"),
             _               => typeSymbol.CreateCastToMethodData("CastToNullable")
         };

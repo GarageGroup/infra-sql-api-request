@@ -16,9 +16,6 @@ public sealed record class DbSelectQuery : IDbQuery
 
     public string TableName { get; }
 
-    [Obsolete("Use TableAlias instead")]
-    public string? ShortName => TableAlias;
-
     public string? TableAlias { get; }
 
     public int? Top { get; init; }

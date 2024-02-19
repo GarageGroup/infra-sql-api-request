@@ -81,7 +81,7 @@ partial class DbQueryExtensions
             return default;
         }
 
-        var filterParameters = query.Filter?.GetFilterParameters().AsEnumerable() ?? Enumerable.Empty<DbParameter>();
+        var filterParameters = query.Filter?.GetFilterParameters().AsEnumerable() ?? [];
         var joinFilters = query.JoinedTables.AsEnumerable().Select(GetFilter).SelectMany(GetParameters);
         var applyParameters = query.AppliedTables.AsEnumerable().SelectMany(GetAppliedParameters);
 

@@ -173,9 +173,8 @@ partial class DbEntityBuilder
             .Append(", ")
             .Append(dbJoinData.TableAlias.AsStringSourceCodeOrStringEmpty())
             .Append(", ")
-            .Append("new DbRawFilter(")
             .Append(dbJoinData.RawFilter.AsStringSourceCodeOrStringEmpty())
-            .Append("))")
+            .Append(')')
             .ToString();
     }
 
