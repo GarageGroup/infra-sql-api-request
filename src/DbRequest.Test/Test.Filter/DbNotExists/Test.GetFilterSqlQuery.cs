@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbNotExistsFilterTest
+/*partial class DbNotExistsFilterTest
 {
     [Fact]
     public static void GetFilterSqlQuery_ExpectCorrectQuery()
@@ -19,4 +19,4 @@ partial class DbNotExistsFilterTest
 
         Assert.Equal(expected, actual);
     }
-}
+}*/

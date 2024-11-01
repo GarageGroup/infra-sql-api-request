@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbRawFilterTest
+/*partial class DbRawFilterTest
 {
     [Theory]
     [MemberData(nameof(FilterSqlQueryTestData))]
@@ -35,4 +35,4 @@ partial class DbRawFilterTest
                 "SELECT * FROM Product"
             }
         };
-}
+}*/

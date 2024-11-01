@@ -49,7 +49,7 @@ public static class DbRefTypeTest
             Price = 754.951,
             Sum = -17895,
             ExternalId = 12391298712,
-            FieldValues = new(0)
+            FieldValues = []
         };
 
         actual.ShouldDeepEqual(expected);

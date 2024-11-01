@@ -19,24 +19,33 @@ partial class DbParameterFilterTest
         {
             {
                 new("Id", DbFilterOperator.Equal, 1),
-                new DbParameter("Id", 1).AsFlatArray()
+                [
+                    new("Id", 1)
+                ]
             },
             {
                 new("Id", DbFilterOperator.Greater, null),
-                new(
-                    new DbParameter("Id", null))
+                [
+                    new("Id", null)
+                ]
             },
             {
                 new("id", DbFilterOperator.Equal, "Some value", "p.Id"),
-                new DbParameter("p.Id", "Some value").AsFlatArray()
+                [
+                    new("p.Id", "Some value")
+                ]
             },
             {
                 new("Name", DbFilterOperator.GreaterOrEqual, false, string.Empty),
-                new DbParameter("Name", false).AsFlatArray()
+                [
+                    new("Name", false)
+                ]
             },
             {
                 new("value", (DbFilterOperator)(-1), 75.91m),
-                new DbParameter("value", 75.91m).AsFlatArray()
+                [
+                    new("value", 75.91m)
+                ]
             }
         };
 }

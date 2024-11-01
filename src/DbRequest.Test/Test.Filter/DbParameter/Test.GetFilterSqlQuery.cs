@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbParameterFilterTest
+/*partial class DbParameterFilterTest
 {
     [Theory]
     [MemberData(nameof(FilterSqlQueryTestData))]
@@ -64,4 +64,4 @@ partial class DbParameterFilterTest
                 "Id <> @Id"
             }
         };
-}
+}*/

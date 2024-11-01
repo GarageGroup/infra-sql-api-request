@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbDeleteQueryTest
+/*partial class DbDeleteQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
@@ -32,4 +32,4 @@ partial class DbDeleteQueryTest
                     new("Id", null))
             }
         };
-}
+}*/

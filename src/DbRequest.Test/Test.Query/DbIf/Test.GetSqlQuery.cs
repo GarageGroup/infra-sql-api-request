@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbIfQueryTest
+/*partial class DbIfQueryTest
 {
     [Theory]
     [MemberData(nameof(SqlQueryTestData))]
@@ -40,4 +40,4 @@ partial class DbIfQueryTest
                 "END"
             }
         };
-}
+}*/

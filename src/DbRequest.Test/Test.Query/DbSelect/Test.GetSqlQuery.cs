@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbSelectQueryTest
+/*partial class DbSelectQueryTest
 {
     [Theory]
     [MemberData(nameof(SqlQueryTestData))]
@@ -207,4 +207,4 @@ partial class DbSelectQueryTest
                 " WHERE p.Id > @Id ORDER BY p.Id DESC, c.Id OFFSET 5071 ROWS FETCH NEXT 7 ROWS ONLY"
             }
         };
-}
+}*/

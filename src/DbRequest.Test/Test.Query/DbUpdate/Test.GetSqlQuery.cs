@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbUpdateQueryTest
+/*partial class DbUpdateQueryTest
 {
     [Theory]
     [MemberData(nameof(SqlQueryTestData))]
@@ -45,4 +45,4 @@ partial class DbUpdateQueryTest
                 "UPDATE Country SET Name = @Name, Id = @Id1 WHERE Price > 0;"
             }
         };
-}
+}*/

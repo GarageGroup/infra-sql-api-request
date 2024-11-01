@@ -17,9 +17,14 @@ public sealed record class DbLikeFilter : IDbFilter
 
     public string ParameterName { get; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildFilterSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildFilterTransactSqlQuery(),
+            SqlDialect.PostgreSql => this.BuildFilterPostgreSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("LIKE")
+        };
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

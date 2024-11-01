@@ -1,5 +1,3 @@
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-public static partial class DbUpdateQueryTest
-{
-}
+public static partial class DbUpdateQueryTest;

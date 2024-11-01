@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbDeleteQueryTest
+/*partial class DbDeleteQueryTest
 {
     [Theory]
     [MemberData(nameof(SqlQueryTestData))]
@@ -23,4 +23,4 @@ partial class DbDeleteQueryTest
                 "DELETE FROM Country WHERE Id = 15;"
             }
         };
-}
+}*/

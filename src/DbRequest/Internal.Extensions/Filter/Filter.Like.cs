@@ -1,18 +1,16 @@
 using System;
-using System.Text;
 
 namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildFilterSqlQuery(this DbLikeFilter filter)
+    internal static string BuildFilterTransactSqlQuery(this DbLikeFilter filter)
         =>
-        new StringBuilder()
-        .Append(filter.FieldName)
-        .Append(" LIKE '%' + @")
-        .Append(filter.ParameterName)
-        .Append(" + '%'")
-        .ToString();
+        $"{filter.FieldName} LIKE '%' + @{filter.ParameterName} + '%'";
+
+    internal static string BuildFilterPostgreSqlQuery(this DbLikeFilter filter)
+        =>
+        $"{filter.FieldName} LIKE '%' || @{filter.ParameterName} || '%'";
 
     internal static FlatArray<DbParameter> BuildFilterParameters(this DbLikeFilter filter)
         =>

@@ -5,7 +5,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbDeleteQuery query)
+    internal static string BuildTransactSqlQuery(this DbDeleteQuery query)
         =>
         new StringBuilder(
             "DELETE FROM ")
@@ -14,7 +14,7 @@ partial class DbQueryExtensions
         .Append(
             " WHERE ")
         .Append(
-            query.Filter.GetFilterSqlQuery())
+            query.Filter.GetFilterSqlQuery(SqlDialect.TransactSql))
         .Append(
             ';')
         .ToString();

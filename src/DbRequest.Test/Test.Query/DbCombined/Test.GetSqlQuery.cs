@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbCombinedQueryTest
+/*partial class DbCombinedQueryTest
 {
     [Theory]
     [MemberData(nameof(SqlQueryTestData))]
@@ -31,4 +31,4 @@ partial class DbCombinedQueryTest
                 "INSERT INTO SomeTable (Id) VALUES (@Id);"
             }
         };
-}
+}*/

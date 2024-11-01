@@ -16,9 +16,9 @@ public sealed record class DbInsertQuery : IDbQuery
 
     public int? TimeoutInSeconds { get; init; }
 
-    public string GetSqlQuery()
+    public string GetSqlQuery(SqlDialect dialect)
         =>
-        this.BuildSqlQuery();
+        this.BuildTransactSqlQuery();
 
     public FlatArray<DbParameter> GetParameters()
         =>

@@ -6,7 +6,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildFilterSqlQuery(this DbParameterArrayFilter filter)
+    internal static string BuildFilterTransactSqlQuery(this DbParameterArrayFilter filter)
     {
         if (filter.FieldValues.IsEmpty)
         {

@@ -28,9 +28,9 @@ public sealed record class DbParameterFilter : IDbFilter
 
     public string ParameterName { get; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildFilterSqlQuery();
+        this.BuildFilterTransactSqlQuery();
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

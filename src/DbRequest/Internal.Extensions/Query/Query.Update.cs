@@ -5,7 +5,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbUpdateQuery query)
+    internal static string BuildTransactSqlQuery(this DbUpdateQuery query)
     {
         if (query.FieldValues.IsEmpty)
         {
@@ -25,7 +25,7 @@ partial class DbQueryExtensions
             .Append(" SET ")
             .Append(setValuesBuilder)
             .Append(" WHERE ")
-            .Append(query.Filter.GetFilterSqlQuery())
+            .Append(query.Filter.GetFilterSqlQuery(SqlDialect.TransactSql))
             .Append(';')
             .ToString();
     }

@@ -20,9 +20,9 @@ public sealed record class DbCombinedFilter : IDbFilter
 
     public required FlatArray<IDbFilter> Filters { get; init; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildFilterSqlQuery();
+        this.BuildFilterSqlQuery(dialect);
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

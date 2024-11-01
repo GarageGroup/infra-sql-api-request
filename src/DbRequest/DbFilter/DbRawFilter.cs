@@ -12,7 +12,7 @@ public sealed record class DbRawFilter : IDbFilter
 
     public FlatArray<DbParameter> Parameters { get; init; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
         SqlQuery;
 

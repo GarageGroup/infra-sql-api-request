@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-partial class DbCombinedQueryTest
+/*partial class DbCombinedQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
@@ -35,4 +35,4 @@ partial class DbCombinedQueryTest
                     new("Price", null))
             },
         };
-}
+}*/

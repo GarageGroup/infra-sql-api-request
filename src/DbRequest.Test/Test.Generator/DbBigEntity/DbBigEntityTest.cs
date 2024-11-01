@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using PrimeFuncPack.UnitTest;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
@@ -95,10 +94,10 @@ public static class DbBigEntityTest
         {
             SelectedFields = new("e.Field00", "t01.Field01"),
             GroupByFields = new("t01.Field01"),
-            JoinedTables = new DbJoinedTable[]
-            {
+            JoinedTables =
+            [
                 new(DbJoinType.Inner, "Table01", "t01", new DbRawFilter("t01.Id = e.Id01"))
-            }
+            ]
         };
 
         Assert.StrictEqual(expected, actual);
@@ -111,18 +110,22 @@ public static class DbBigEntityTest
 
         var expected = new DbSelectQuery("SomeEntity", "e")
         {
-            SelectedFields = new(
+            SelectedFields =
+            [
                 "t01.Field01", "t02.Field02", "t03.Field03", "t04.Field04",
                 "t05.Field05", "t06.Field06", "t07.Field07", "t08.Field08",
                 "t09.Field09", "t10.Field10", "t11.Field11", "t12.Field12",
-                "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16"),
-            GroupByFields = new(
+                "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16"
+            ],
+            GroupByFields =
+            [
                 "t01.Field01", "t02.Field02", "t03.Field03", "t04.Field04",
                 "t05.Field05", "t06.Field06", "t07.Field07", "t08.Field08",
                 "t09.Field09", "t10.Field10", "t11.Field11", "t12.Field12",
-                "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16"),
-            JoinedTables = new DbJoinedTable[]
-            {
+                "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16"
+            ],
+            JoinedTables =
+            [
                 new(DbJoinType.Inner, "Table01", "t01", new DbRawFilter("t01.Id = e.Id01")),
                 new(DbJoinType.Left, "Table02", "t02", new DbRawFilter("t02.Id = e.Id02")),
                 new(DbJoinType.Right, "Table03", "t03", new DbRawFilter("t03.Id = e.Id03")),
@@ -139,7 +142,7 @@ public static class DbBigEntityTest
                 new(DbJoinType.Right, "Table14", "t14", new DbRawFilter("t14.Id = e.Id14")),
                 new(DbJoinType.Inner, "Table15", "t15", new DbRawFilter("t15.Id = e.Id15")),
                 new(DbJoinType.Left, "Table16", "t16", new DbRawFilter("t16.Id = e.Id16"))
-            }
+            ]
         };
 
         Assert.StrictEqual(expected, actual);
@@ -152,20 +155,24 @@ public static class DbBigEntityTest
 
         var expected = new DbSelectQuery("SomeEntity", "e")
         {
-            SelectedFields = new(
+            SelectedFields =
+            [
                 "t01.Field01", "t02.Field02", "t03.Field03", "t04.Field04",
                 "t05.Field05", "t06.Field06", "t07.Field07", "t08.Field08",
                 "t09.Field09", "t10.Field10", "t11.Field11", "t12.Field12",
                 "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16",
-                "t17.Field17"),
-            GroupByFields = new(
+                "t17.Field17"
+            ],
+            GroupByFields =
+            [
                 "t01.Field01", "t02.Field02", "t03.Field03", "t04.Field04",
                 "t05.Field05", "t06.Field06", "t07.Field07", "t08.Field08",
                 "t09.Field09", "t10.Field10", "t11.Field11", "t12.Field12",
                 "t13.Field13", "t14.Field14", "t15.Field15", "t16.Field16",
-                "t17.Field17"),
-            JoinedTables = new DbJoinedTable[]
-            {
+                "t17.Field17"
+            ],
+            JoinedTables =
+            [
                 new(DbJoinType.Inner, "Table01", "t01", new DbRawFilter("t01.Id = e.Id01")),
                 new(DbJoinType.Left, "Table02", "t02", new DbRawFilter("t02.Id = e.Id02")),
                 new(DbJoinType.Right, "Table03", "t03", new DbRawFilter("t03.Id = e.Id03")),
@@ -183,7 +190,7 @@ public static class DbBigEntityTest
                 new(DbJoinType.Inner, "Table15", "t15", new DbRawFilter("t15.Id = e.Id15")),
                 new(DbJoinType.Left, "Table16", "t16", new DbRawFilter("t16.Id = e.Id16")),
                 new(DbJoinType.Inner, "Table17", "t17", new DbRawFilter("t17.Id = e.Id17"))
-            }
+            ]
         };
 
         Assert.StrictEqual(expected, actual);
