@@ -14,7 +14,8 @@ partial class DbExistsFilterTest
             Filter = new StubDbFilter(
                 queries: new Dictionary<SqlDialect, string>
                 {
-                    [SqlDialect.TransactSql] = "Price > 0"
+                    [SqlDialect.TransactSql] = "Price > 0",
+                    [SqlDialect.PostgreSql] = "Price > 0"
                 },
                 parameters:
                 [

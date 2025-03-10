@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbSelectQueryTest
+partial class DbSelectQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
@@ -27,25 +27,28 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
                     Top = 5,
                     Offset = long.MaxValue,
                     SelectedFields = new("Id", "Name"),
-                    Filter = new StubDbFilter("Id > 0"),
-                    Orders = new(
-                        new DbOrder("Name"))
+                    Filter = new StubInvariantDbFilter("Id > 0"),
+                    Orders =
+                    [
+                        new DbOrder("Name")
+                    ]
                 },
                 default
             },
             {
                 new("Property", "p")
                 {
-                    Filter = new StubDbFilter("HasBalcony = @HasBalcony", new DbParameter("HasBalcony", false))
+                    Filter = new StubInvariantDbFilter("HasBalcony = @HasBalcony", new DbParameter("HasBalcony", false))
                 },
-                new(
-                    new DbParameter("HasBalcony", false))
+                [
+                    new DbParameter("HasBalcony", false)
+                ]
             },
             {
                 new("Property", "\t")
                 {
                     SelectedFields = new("Id", "Name"),
-                    Filter = new StubDbFilter("Id > @Id", new("Id", 15), new("Name", null)),
+                    Filter = new StubInvariantDbFilter("Id > @Id", new("Id", 15), new("Name", null)),
                     GroupByFields = new("Id", "Name")
                 },
                 new(
@@ -54,26 +57,27 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
             {
                 new("Property", "p")
                 {
-                    JoinedTables = new DbJoinedTable[]
-                    {
-                        new(DbJoinType.Inner, "Translation", "t", new StubDbFilter("t.PropertyId = p.Id", new DbParameter("Id", 101)))
-                    }
+                    JoinedTables =
+                    [
+                        new(DbJoinType.Inner, "Translation", "t", new StubInvariantDbFilter("t.PropertyId = p.Id", new DbParameter("Id", 101)))
+                    ]
                 },
-                new(
-                    new DbParameter("Id", 101))
+                [
+                    new DbParameter("Id", 101)
+                ]
             },
             {
                 new("Property", "p")
                 {
                     Top = 15,
                     SelectedFields = new("p.Id", "t.Id"),
-                    Filter = new StubDbFilter(
+                    Filter = new StubInvariantDbFilter(
                         "Id > @Id", new("Id", 15), new("Name", "Some string"), new("Price0", null), new("Price1", 10.51m)),
-                    JoinedTables = new DbJoinedTable[]
-                    {
-                        new(DbJoinType.Left, "Translation", "t", new StubDbFilter("t.PropertyId = p.Id", new DbParameter("Value", null))),
-                        new(DbJoinType.Right, "City", "c", new StubDbFilter("c.Id <> p.CityId", new DbParameter("CityValue", "Some value")))
-                    },
+                    JoinedTables =
+                    [
+                        new(DbJoinType.Left, "Translation", "t", new StubInvariantDbFilter("t.PropertyId = p.Id", new DbParameter("Value", null))),
+                        new(DbJoinType.Right, "City", "c", new StubInvariantDbFilter("c.Id <> p.CityId", new DbParameter("CityValue", "Some value")))
+                    ],
                     GroupByFields = new("p.Id")
                 },
                 new(
@@ -87,21 +91,22 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
             {
                 new("Property", "p")
                 {
-                    AppliedTables = new DbAppliedTable[]
-                    {
+                    AppliedTables =
+                    [
                         new(
                             type: DbApplyType.Cross,
                             selectQuery: new("PropertyType", "pt")
                             {
-                                Filter = new StubDbFilter(
+                                Filter = new StubInvariantDbFilter(
                                     "Name = @Name", new("Id", 5), new("Name", "Test"))
                             },
                             alias: "pt")
-                    }
+                    ]
                 },
-                new(
+                [
                     new("Id", 5),
-                    new("Name", "Test"))
+                    new("Name", "Test")
+                ]
             }
         };
-}*/
+}

@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbDeleteQueryTest
+partial class DbDeleteQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
@@ -20,16 +21,25 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
             {
                 new(
                     tableName: "Country",
-                    filter: new StubDbFilter("Id = 15")),
+                    filter: new StubDbFilter(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "Id = 15"
+                        })),
                 default
             },
             {
                 new(
                     tableName: "Country",
-                    filter: new StubDbFilter("Price > 0", new("Price", 25), new("Id", null))),
+                    filter: new StubDbFilter(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "Price > 0"
+                        },
+                        parameters: [new("Price", 25), new("Id", null)])),
                 new(
                     new("Price", 25),
                     new("Id", null))
             }
         };
-}*/
+}

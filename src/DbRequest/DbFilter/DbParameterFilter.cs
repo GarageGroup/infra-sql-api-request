@@ -30,7 +30,11 @@ public sealed record class DbParameterFilter : IDbFilter
 
     public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildFilterTransactSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildFilterTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("FilterWithParameter")
+        };
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

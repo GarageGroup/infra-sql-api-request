@@ -21,7 +21,11 @@ public sealed record class DbIfQuery : IDbQuery
 
     public string GetSqlQuery(SqlDialect dialect)
         =>
-        this.BuildTransactSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("IF")
+        };
 
     public FlatArray<DbParameter> GetParameters()
         =>

@@ -1,35 +1,81 @@
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbIfQueryTest
+partial class DbIfQueryTest
 {
     [Theory]
-    [MemberData(nameof(SqlQueryTestData))]
-    public static void GetFilterSqlQuery_TypesAreInRange_ExpectCorrectSqlQuery(DbIfQuery source, string expected)
+    [InlineData(SqlDialect.PostgreSql, "PostgreSql")]
+    [InlineData((SqlDialect)21, "21")]
+    public static void GetSqlQuery_DialectIsNotSupported_ExpectNotSupportedException(
+        SqlDialect dialect, string expectedName)
     {
-        var actual = source.GetSqlQuery();
+        var source = new DbIfQuery(
+            condition: new StubInvariantDbFilter("Id = 5"),
+            thenQuery: new StubInvariantDbQuery("SELECT * FROM Country"),
+            elseQuery: new StubInvariantDbQuery("SELECT * FROM City"));
+
+        var ex = Assert.Throws<NotSupportedException>(Test);
+
+        Assert.Contains("IF", ex.Message, StringComparison.InvariantCulture);
+        Assert.Contains(expectedName, ex.Message, StringComparison.InvariantCulture);
+
+        void Test()
+            =>
+            _ = source.GetSqlQuery(dialect);
+    }
+
+    [Theory]
+    [MemberData(nameof(SqlQueryTestData))]
+    public static void GetSqlQuery_DialectIsSupported_ExpectCorrectSqlQuery(
+        DbIfQuery source, SqlDialect dialect, string expected)
+    {
+        var actual = source.GetSqlQuery(dialect);
         Assert.Equal(expected, actual);
     }
 
-    public static TheoryData<DbIfQuery, string> SqlQueryTestData
+    public static TheoryData<DbIfQuery, SqlDialect, string> SqlQueryTestData
         =>
         new()
         {
             {
                 new(
-                    condition: new StubDbFilter("Id = @Id", new DbParameter("Id", 15)),
-                    thenQuery: new StubDbQuery("SELECT * FROM Country")),
-                "IF Id = @Id\n" +
-                "BEGIN\n" +
-                "SELECT * FROM Country\n" +
-                "END"
+                    condition: new StubDbFilter(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "Id = @Id"
+                        },
+                        parameters: new DbParameter("Id", 15)),
+                    thenQuery: new StubDbQuery(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "SELECT * FROM Country"
+                        })),
+                SqlDialect.TransactSql,
+                "IF Id = @Id\nBEGIN\nSELECT * FROM Country\nEND"
             },
             {
                 new(
-                    condition: new StubDbFilter("Id = @Id", new DbParameter("Id", null)),
-                    thenQuery: new StubDbQuery("SELECT * FROM Country"),
-                    elseQuery: new StubDbQuery("SELECT Price, Name FROM Product WHERE Price > @Price", new DbParameter("Price", 1000))),
+                    condition: new StubDbFilter(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "Id = @Id"
+                        },
+                        parameters: new DbParameter("Id", null)),
+                    thenQuery: new StubDbQuery(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "SELECT * FROM Country"
+                        }),
+                    elseQuery: new StubDbQuery(
+                        queries: new Dictionary<SqlDialect, string>
+                        {
+                            [SqlDialect.TransactSql] = "SELECT Price, Name FROM Product WHERE Price > @Price"
+                        },
+                        parameters: new DbParameter("Price", 1000))),
+                SqlDialect.TransactSql,
                 "IF Id = @Id\n" +
                 "BEGIN\n" +
                 "SELECT * FROM Country\n" +
@@ -40,4 +86,4 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
                 "END"
             }
         };
-}*/
+}

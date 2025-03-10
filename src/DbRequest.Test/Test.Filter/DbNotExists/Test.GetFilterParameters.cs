@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbNotExistsFilterTest
+partial class DbNotExistsFilterTest
 {
     [Fact]
     public static void GetFilterParameters_ExpectCorrectParameters()
@@ -10,7 +11,9 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
         var selectQuery = new DbSelectQuery("SomeTable")
         {
             SelectedFields = new("Id"),
-            Filter = new StubDbFilter("Price > 0", new("Price", 15), new("Name", "Some name"))
+            Filter = new StubDbFilter(
+                queries: new Dictionary<SqlDialect, string>(0),
+                parameters: [new("Price", 15), new("Name", "Some name")])
         };
         var source = new DbNotExistsFilter(selectQuery);
 
@@ -19,4 +22,4 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
         Assert.StrictEqual(expected, actual);
     }
-}*/
+}

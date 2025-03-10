@@ -1,14 +1,45 @@
+using System;
 using System.Collections.Generic;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbExistsFilterTest
+partial class DbExistsFilterTest
 {
     [Theory]
+    [InlineData(SqlDialect.PostgreSql, "PostgreSql")]
+    [InlineData((SqlDialect)21, "21")]
+    public static void GetFilterSqlQuery_DialectIsNotSupported_ExpectNotSupportedException(
+        SqlDialect dialect, string expectedName)
+    {
+        var selectQuery = new DbSelectQuery("SomeTable")
+        {
+            SelectedFields = new("Id"),
+            Filter = new StubDbFilter(
+                queries: new Dictionary<SqlDialect, string>
+                {
+                    [dialect] = "Price > 0"
+                },
+                parameters:
+                [
+                    new("Price", 15)
+                ])
+        };
+
+        var source = new DbExistsFilter(selectQuery);
+        var ex = Assert.Throws<NotSupportedException>(Test);
+
+        Assert.Contains("EXISTS", ex.Message, StringComparison.InvariantCulture);
+        Assert.Contains(expectedName, ex.Message, StringComparison.InvariantCulture);
+
+        void Test()
+            =>
+            _ = source.GetFilterSqlQuery(dialect);
+    }
+
+    [Theory]
     [InlineData(SqlDialect.TransactSql)]
-    [InlineData(SqlDialect.PostgreSql)]
-    public static void GetFilterSqlQuery_DialectIsCorrect_ExpectCorrectQuery(SqlDialect dialect)
+    public static void GetFilterSqlQuery_DialectIsSupported_ExpectCorrectQuery(SqlDialect dialect)
     {
         var selectQuery = new DbSelectQuery("SomeTable")
         {
@@ -31,4 +62,4 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
         Assert.Equal(expected, actual);
     }
-}*/
+}

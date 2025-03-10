@@ -38,7 +38,11 @@ public sealed record class DbSelectQuery : IDbQuery
 
     public string GetSqlQuery(SqlDialect dialect)
         =>
-        this.BuildTransactSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("SELECT")
+        };
 
     public FlatArray<DbParameter> GetParameters()
         =>

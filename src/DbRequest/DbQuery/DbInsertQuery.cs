@@ -18,7 +18,11 @@ public sealed record class DbInsertQuery : IDbQuery
 
     public string GetSqlQuery(SqlDialect dialect)
         =>
-        this.BuildTransactSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("INSERT")
+        };
 
     public FlatArray<DbParameter> GetParameters()
         =>

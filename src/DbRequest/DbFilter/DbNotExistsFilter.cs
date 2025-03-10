@@ -12,7 +12,11 @@ public sealed record class DbNotExistsFilter : IDbFilter
 
     public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildTransactSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("NOT EXISTS")
+        };
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

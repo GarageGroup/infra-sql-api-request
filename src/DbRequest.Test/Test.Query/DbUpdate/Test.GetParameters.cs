@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-/*partial class DbUpdateQueryTest
+partial class DbUpdateQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
@@ -21,34 +21,37 @@ namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
                 new(
                     tableName: "Country",
                     fieldValues: default,
-                    filter: new StubDbFilter("Price > 0", new DbParameter("SomeParam", 15))),
-                new(
-                    new DbParameter("SomeParam", 15))
+                    filter: new StubInvariantDbFilter("Price > 0", new DbParameter("SomeParam", 15))),
+                [
+                    new("SomeParam", 15)
+                ]
             },
             {
                 new(
                     tableName: "Country",
-                    fieldValues: new DbFieldValue[]
-                    {
+                    fieldValues:
+                    [
                         new("Id", 15)
-                    },
-                    filter: new StubDbFilter("Price > 0")),
-                new(
-                    new DbParameter("Id", 15))
+                    ],
+                    filter: new StubInvariantDbFilter("Price > 0")),
+                [
+                    new("Id", 15)
+                ]
             },
             {
                 new(
                     tableName: "Country",
-                    fieldValues: new DbFieldValue[]
-                    {
+                    fieldValues:
+                    [
                         new("Name", "Some value"),
                         new("Id", null, "Id1")
-                    },
-                    filter: new StubDbFilter("Price > 0", new DbParameter("Price", 25))),
-                new(
+                    ],
+                    filter: new StubInvariantDbFilter("Price > 0", new DbParameter("Price", 25))),
+                [
                     new("Name", "Some value"),
                     new("Id1", null),
-                    new("Price", 25))
+                    new("Price", 25)
+                ]
             }
         };
-}*/
+}
