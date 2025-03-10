@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
 
-internal sealed class StubDbFilter(IReadOnlyDictionary<SqlDialect, string> queries, params DbParameter[] parameters) : IDbFilter
+internal sealed class StubInvariantDbFilter(string query, params DbParameter[] parameters) : IDbFilter
 {
     public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        queries[dialect];
+        query;
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

@@ -5,14 +5,14 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbIfQuery query)
+    internal static string BuildTransactSqlQuery(this DbIfQuery query)
     {
         var queryBuilder = new StringBuilder("IF ")
-            .Append(query.Condition.GetFilterSqlQuery())
+            .Append(query.Condition.GetFilterSqlQuery(SqlDialect.TransactSql))
             .AppendLine()
             .Append("BEGIN")
             .AppendLine()
-            .Append(query.ThenQuery.GetSqlQuery())
+            .Append(query.ThenQuery.GetSqlQuery(SqlDialect.TransactSql))
             .AppendLine()
             .Append("END");
 
@@ -27,7 +27,7 @@ partial class DbQueryExtensions
             .AppendLine()
             .Append("BEGIN")
             .AppendLine()
-            .Append(query.ElseQuery.GetSqlQuery())
+            .Append(query.ElseQuery.GetSqlQuery(SqlDialect.TransactSql))
             .AppendLine()
             .Append("END")
             .ToString();

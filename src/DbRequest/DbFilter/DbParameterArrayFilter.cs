@@ -28,9 +28,13 @@ public sealed record class DbParameterArrayFilter : IDbFilter
 
     public string ParameterPrefix { get; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildFilterSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildFilterTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("ArrayFilterWithParameter")
+        };
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

@@ -19,7 +19,7 @@ public sealed record class DbFieldFilter : IDbFilter
 
     public string RawFieldValue { get; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
         this.BuildFilterSqlQuery();
 

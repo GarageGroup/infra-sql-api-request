@@ -5,12 +5,12 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbNotExistsFilter filter)
+    internal static string BuildTransactSqlQuery(this DbNotExistsFilter filter)
         =>
         new StringBuilder(
             "NOT EXISTS (")
         .Append(
-            filter.SelectQuery.GetSqlQuery())
+            filter.SelectQuery.GetSqlQuery(SqlDialect.TransactSql))
         .Append(
             ')')
         .ToString();

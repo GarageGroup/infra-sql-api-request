@@ -5,7 +5,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbInsertQuery query)
+    internal static string BuildTransactSqlQuery(this DbInsertQuery query)
     {
         if (query.FieldValues.IsEmpty)
         {

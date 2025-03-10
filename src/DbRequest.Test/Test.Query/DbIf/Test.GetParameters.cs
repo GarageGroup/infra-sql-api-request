@@ -7,7 +7,7 @@ partial class DbIfQueryTest
 {
     [Theory]
     [MemberData(nameof(ParametersTestData))]
-    public static void GetFilterParameters_ExpectCorrectParameters(DbIfQuery source, FlatArray<DbParameter> expected)
+    public static void GetParameters_ExpectCorrectParameters(DbIfQuery source, FlatArray<DbParameter> expected)
     {
         var actual = source.GetParameters();
         Assert.StrictEqual(expected, actual);
@@ -19,15 +19,15 @@ partial class DbIfQueryTest
         {
             {
                 new(
-                    condition: new StubDbFilter("Id = @Id"),
-                    thenQuery: new StubDbQuery("SELECT * FROM Country")),
+                    condition: new StubInvariantDbFilter("Id = @Id"),
+                    thenQuery: new StubInvariantDbQuery("SELECT * FROM Country")),
                 default
             },
             {
                 new(
-                    condition: new StubDbFilter("Id = @Id", new("Id", null), new("Name", "SomeName")),
-                    thenQuery: new StubDbQuery("SELECT * FROM Country", new DbParameter("SomeParameter", 200)),
-                    elseQuery: new StubDbQuery("SELECT Price, Name FROM Product WHERE Price > @Price", new DbParameter("Price", 1000))),
+                    condition: new StubInvariantDbFilter("Id = @Id", new("Id", null), new("Name", "SomeName")),
+                    thenQuery: new StubInvariantDbQuery("SELECT * FROM Country", new DbParameter("SomeParameter", 200)),
+                    elseQuery: new StubInvariantDbQuery("SELECT Price, Name FROM Product WHERE Price > @Price", new DbParameter("Price", 1000))),
                 new(
                     new("Id", null),
                     new("Name", "SomeName"),

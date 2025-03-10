@@ -19,18 +19,21 @@ partial class DbLikeFilterTest
         {
             {
                 new("LOWER(p.Name)", "TeSt", "Search"),
-                new(
-                    new DbParameter("Search", "TeSt"))
+                [
+                    new("Search", "TeSt")
+                ]
             },
             {
                 new("p.Name", null, "Name"),
-                new(
-                    new DbParameter("Name", null))
+                [
+                    new("Name", null)
+                ]
             },
             {
                 new("Description", "\t\n", "DescriptionParameter"),
-                new(
-                    new DbParameter("DescriptionParameter", "\t\n"))
+                [
+                    new("DescriptionParameter", "\t\n")
+                ]
             }
         };
 }

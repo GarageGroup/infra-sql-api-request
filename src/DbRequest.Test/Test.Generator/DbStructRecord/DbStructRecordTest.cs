@@ -72,12 +72,15 @@ public static class DbStructRecordTest
 
         var expected = new DbSelectQuery("Product", "p")
         {
-            JoinedTables = new DbJoinedTable[]
-            {
-                new(DbJoinType.Right, "Right", "r", new DbRawFilter("r.Id = p.RightId")),
-                new(DbJoinType.Left, "Left", "l", new DbRawFilter("l.Id = p.LeftId"))
-            },
-            SelectedFields = new("Id", "p.IsActive", "l.Date", "r.ModifiedAt", "c.Price AS Price", "p.Sum", "p.Name", "p.AdditionalData"),
+            JoinedTables =
+            [
+                new(DbJoinType.Right, "Right", "r", "r.Id = p.RightId"),
+                new(DbJoinType.Left, "Left", "l", "l.Id = p.LeftId")
+            ],
+            SelectedFields =
+            [
+                "Id", "p.IsActive", "l.Date", "r.ModifiedAt", "c.Price AS Price", "p.Sum", "p.Name", "p.AdditionalData"
+            ],
             GroupByFields = new("c.Price", "p.Sum")
         };
 
@@ -91,10 +94,10 @@ public static class DbStructRecordTest
 
         var expected = new DbSelectQuery("Product", "p")
         {
-            JoinedTables = new DbJoinedTable[]
-            {
-                new(DbJoinType.Left, "Left", "l", new DbRawFilter("l.Id = p.LeftId"))
-            },
+            JoinedTables =
+            [
+                new(DbJoinType.Left, "Left", "l", "l.Id = p.LeftId")
+            ],
             SelectedFields = new("Id", "p.IsActive", "l.Date"),
             GroupByFields = new("l.Date")
         };
@@ -109,10 +112,10 @@ public static class DbStructRecordTest
 
         var expected = new DbSelectQuery("Product", "p")
         {
-            JoinedTables = new DbJoinedTable[]
-            {
-                new(DbJoinType.Right, "Right", "r", new DbRawFilter("r.Id = p.RightId"))
-            },
+            JoinedTables =
+            [
+                new(DbJoinType.Right, "Right", "r", "r.Id = p.RightId")
+            ],
             SelectedFields = new("Id", "p.IsActive", "r.ModifiedAt")
         };
 

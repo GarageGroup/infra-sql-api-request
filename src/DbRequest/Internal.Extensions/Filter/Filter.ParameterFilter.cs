@@ -5,7 +5,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildFilterSqlQuery(this DbParameterFilter filter)
+    internal static string BuildFilterTransactSqlQuery(this DbParameterFilter filter)
         =>
         new StringBuilder()
         .Append(filter.FieldName)

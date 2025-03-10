@@ -10,9 +10,13 @@ public sealed record class DbNotExistsFilter : IDbFilter
 
     public DbSelectQuery SelectQuery { get; }
 
-    public string GetFilterSqlQuery()
+    public string GetFilterSqlQuery(SqlDialect dialect)
         =>
-        this.BuildSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("NOT EXISTS")
+        };
 
     public FlatArray<DbParameter> GetFilterParameters()
         =>

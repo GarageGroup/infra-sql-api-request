@@ -5,7 +5,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbCombinedQuery query)
+    internal static string BuildSqlQuery(this DbCombinedQuery query, SqlDialect dialect)
     {
         if (query.Queries.IsEmpty)
         {
@@ -16,7 +16,7 @@ partial class DbQueryExtensions
 
         foreach (var dbQuery in query.Queries)
         {
-            queryBuilder = queryBuilder.AppendSeparator("\n").Append(dbQuery.GetSqlQuery());
+            queryBuilder = queryBuilder.AppendSeparator("\n").Append(dbQuery.GetSqlQuery(dialect));
         }
 
         return queryBuilder.ToString();

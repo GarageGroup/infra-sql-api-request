@@ -16,9 +16,13 @@ public sealed record class DbDeleteQuery : IDbQuery
 
     public int? TimeoutInSeconds { get; init; }
 
-    public string GetSqlQuery()
+    public string GetSqlQuery(SqlDialect dialect)
         =>
-        this.BuildSqlQuery();
+        dialect switch
+        {
+            SqlDialect.TransactSql => this.BuildTransactSqlQuery(),
+            _ => throw dialect.CreateNotSupportedException("DELETE")
+        };
 
     public FlatArray<DbParameter> GetParameters()
         =>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GarageGroup.Infra.Sql.Api.Core.DbRequest.Test;
@@ -26,76 +27,115 @@ partial class DbCombinedFilterTest
                 default
             },
             {
-                new(
-                    DbLogicalOperator.Or,
-                    new StubDbFilter[]
-                    {
-                        new("Id > 0")
-                    }),
+                new(DbLogicalOperator.Or)
+                {
+                    Filters =
+                    [
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.TransactSql] = "Id > 0"
+                            })
+                    ]
+                },
                 default
             },
             {
-                new(
-                    DbLogicalOperator.And,
-                    new StubDbFilter[]
-                    {
-                        new(
-                            "HasBalcony = @HasBalcony",
+                new(DbLogicalOperator.And)
+                {
+                    Filters =
+                    [
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.PostgreSql] = "HasBalcony = @HasBalcony"
+                            },
+                            parameters:
                             [
                                 new("HasBalcony", false)
                             ])
-                    }),
-                new(
-                    new DbParameter("HasBalcony", false))
+                    ]
+                },
+                [
+                    new("HasBalcony", false)
+                ]
             },
             {
-                new(
-                    DbLogicalOperator.And,
-                    new StubDbFilter[]
-                    {
-                        new(
-                            "Id > @Id",
+                new(DbLogicalOperator.And)
+                {
+                    Filters =
+                    [
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.PostgreSql] = "Id > @Id"
+                            },
+                            parameters:
                             [
                                 new("Id", 15)
                             ]),
-                        new(
-                            "Name = @Name",
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.PostgreSql] = "Name = @Name"
+                            },
+                            parameters:
                             [
                                 new("Name", null)
                             ]),
-                        new("Price > 0")
-                    }),
-                new(
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.PostgreSql] = "Price > 0"
+                            })
+                    ]
+                },
+                [
                     new("Id", 15),
-                    new("Name", null))
+                    new("Name", null)
+                ]
             },
             {
-                new(
-                    DbLogicalOperator.Or,
-                    new StubDbFilter[]
-                    {
-                        new(
-                            "Id > @Id",
+                new(DbLogicalOperator.Or)
+                {
+                    Filters =
+                    [
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.TransactSql] = "Id > @Id"
+                            },
+                            parameters:
                             [
                                 new("Id", 15)
                             ]),
-                        new(
-                            "\t",
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.TransactSql] = "\t"
+                            },
+                            parameters:
                             [
                                 new("Name", "Some string")
                             ]),
-                        new(
-                            "Price IN (@Price0, @Price1)",
+                        new StubDbFilter(
+                            queries: new Dictionary<SqlDialect, string>
+                            {
+                                [SqlDialect.TransactSql] = "Price IN (@Price0, @Price1)"
+                            },
+                            parameters:
                             [
                                 new("Price0", null),
                                 new("Price1", 10.51m)
                             ])
-                    }),
-                new(
+                    ]
+                },
+                [
                     new("Id", 15),
                     new("Name", "Some string"),
                     new("Price0", null),
-                    new("Price1", 10.51m))
+                    new("Price1", 10.51m)
+                ]
             }
         };
 }

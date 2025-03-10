@@ -7,7 +7,7 @@ namespace GarageGroup.Infra;
 
 partial class DbQueryExtensions
 {
-    internal static string BuildSqlQuery(this DbSelectQuery query)
+    internal static string BuildTransactSqlQuery(this DbSelectQuery query)
     {
         var queryBuilder = new StringBuilder("SELECT ");
 
@@ -43,7 +43,7 @@ partial class DbQueryExtensions
             queryBuilder = queryBuilder.Append(' ').Append(applyQuery);
         }
 
-        var filterQuery = query.Filter?.GetFilterSqlQuery();
+        var filterQuery = query.Filter?.GetFilterSqlQuery(SqlDialect.TransactSql);
         if (string.IsNullOrWhiteSpace(filterQuery) is false)
         {
             queryBuilder = queryBuilder.Append(" WHERE ").Append(filterQuery);
@@ -159,7 +159,7 @@ partial class DbQueryExtensions
         .Append(
             " ON ")
         .Append(
-            joinedTable.Filter.GetFilterSqlQuery());
+            joinedTable.Filter.GetFilterSqlQuery(SqlDialect.TransactSql));
 
     private static StringBuilder AppendAppliedTable(this StringBuilder builder, DbAppliedTable appliedTable)
         =>
@@ -168,7 +168,7 @@ partial class DbQueryExtensions
         .Append(
             " APPLY (")
         .Append(
-            appliedTable.SelectQuery.GetSqlQuery())
+            appliedTable.SelectQuery.GetSqlQuery(SqlDialect.TransactSql))
         .Append(
             ") ")
         .Append(
