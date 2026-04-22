@@ -16,7 +16,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbRequest\DbRequest.csproj" />
-    <ProjectReference Include="..\DbRequest.Generator\DbRequest.Generator.csproj" OutputItemType="Analyzer" />
+    <ProjectReference Include="..\DbRequest.Generator\DbRequest.Generator.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <Analyzer Include="..\DbRequest.Generator\bin\$(Configuration)\netstandard2.0\EarlyFuncPack.CodeAnalysis.Extensions.dll" />
+    <Analyzer Include="..\DbRequest.Generator\bin\$(Configuration)\netstandard2.0\EarlyFuncPack.CodeAnalysis.SourceBuilder.dll" />
   </ItemGroup>
 
   <ItemGroup>
