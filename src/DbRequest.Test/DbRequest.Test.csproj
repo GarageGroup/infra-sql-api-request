@@ -20,11 +20,13 @@
       <OutputItemType>Analyzer</OutputItemType>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <Analyzer Include="..\DbRequest.Generator\bin\$(Configuration)\netstandard2.0\EarlyFuncPack.CodeAnalysis.Extensions.dll" />
-    <Analyzer Include="..\DbRequest.Generator\bin\$(Configuration)\netstandard2.0\EarlyFuncPack.CodeAnalysis.SourceBuilder.dll" />
+    <Analyzer Include="$(PkgEarlyFuncPack_CodeAnalysis_Extensions)/lib/netstandard2.0/EarlyFuncPack.CodeAnalysis.Extensions.dll" />
+    <Analyzer Include="$(PkgEarlyFuncPack_CodeAnalysis_SourceBuilder)/lib/netstandard2.0/EarlyFuncPack.CodeAnalysis.SourceBuilder.dll" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EarlyFuncPack.CodeAnalysis.Extensions" Version="0.1.0" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="EarlyFuncPack.CodeAnalysis.SourceBuilder" Version="0.1.0" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="5.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
