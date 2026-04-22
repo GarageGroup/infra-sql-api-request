@@ -17,22 +17,11 @@ partial class DbFieldFilterTest
 
     public static TheoryData<DbFieldFilter> FilterParametersTestData
         =>
-        new()
-        {
-            {
-                new("Id", DbFilterOperator.Equal, "73")
-            },
-            {
-                new("Id", DbFilterOperator.Greater, string.Empty)
-            },
-            {
-                new("Value", DbFilterOperator.Equal, "(SELECT COUNT(*) FROM Country)")
-            },
-            {
-                new("Name", DbFilterOperator.Inequal, "true")
-            },
-            {
-                new("value", (DbFilterOperator)(-3), "\"Some text\"")
-            }
-        };
+        [
+            new DbFieldFilter("Id", DbFilterOperator.Equal, "73"),
+            new DbFieldFilter("Id", DbFilterOperator.Greater, string.Empty),
+            new DbFieldFilter("Value", DbFilterOperator.Equal, "(SELECT COUNT(*) FROM Country)"),
+            new DbFieldFilter("Name", DbFilterOperator.Inequal, "true"),
+            new DbFieldFilter("value", (DbFilterOperator)(-3), "\"Some text\"")
+        ];
 }

@@ -3,28 +3,28 @@ using Microsoft.CodeAnalysis;
 
 namespace GarageGroup.Infra;
 
-[Generator]
-internal sealed class DbEntitySourceGenerator : ISourceGenerator
+[Generator(LanguageNames.CSharp)]
+internal sealed class DbEntitySourceGenerator : IIncrementalGenerator
 {
-    public void Execute(GeneratorExecutionContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        foreach (var dbEntityType in context.GetDbEntityTypes())
+        context.RegisterSourceOutput(context.CompilationProvider, InnerGenerateSource);
+
+        static void InnerGenerateSource(SourceProductionContext context, Compilation compilation)
         {
-            var readEntitySourceCode = dbEntityType.BuildReadEntitySourceCode();
-            context.AddSource($"{dbEntityType.FileName}.ReadEntity.g.cs", readEntitySourceCode);
-
-            if (dbEntityType.SelectQueries.Any() is false)
+            foreach (var dbEntityType in compilation.GetDbEntityTypes(context.CancellationToken))
             {
-                continue;
+                var readEntitySourceCode = dbEntityType.BuildReadEntitySourceCode();
+                context.AddSource($"{dbEntityType.FileName}.ReadEntity.g.cs", readEntitySourceCode);
+
+                if (dbEntityType.SelectQueries.Any() is false)
+                {
+                    continue;
+                }
+
+                var querySourceCode = dbEntityType.BuildQuerySourceCode();
+                context.AddSource($"{dbEntityType.FileName}.Query.g.cs", querySourceCode);
             }
-
-            var querySourceCode = dbEntityType.BuildQuerySourceCode();
-            context.AddSource($"{dbEntityType.FileName}.Query.g.cs", querySourceCode);
         }
-    }
-
-    public void Initialize(GeneratorInitializationContext context)
-    {
-        // No initialization required for this one
     }
 }

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/dotnet.yml" />
+  </Folder>
+  <Project Path="src/DbRequest.Generator/DbRequest.Generator.csproj" />
+  <Project Path="src/DbRequest.Test/DbRequest.Test.csproj" />
+  <Project Path="src/DbRequest/DbRequest.csproj" />
+</Solution>

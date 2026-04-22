@@ -1,3 +1,5 @@
+using PrimeFuncPack;
+
 namespace GarageGroup.Infra;
 
 internal sealed record class DbEntityType

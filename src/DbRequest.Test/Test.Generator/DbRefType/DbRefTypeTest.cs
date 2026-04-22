@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DeepEqual.Syntax;
 using PrimeFuncPack.UnitTest;
 using Xunit;
 
@@ -52,6 +51,6 @@ public static class DbRefTypeTest
             FieldValues = []
         };
 
-        actual.ShouldDeepEqual(expected);
+        Assert.Equivalent(expected, actual, true);
     }
 }

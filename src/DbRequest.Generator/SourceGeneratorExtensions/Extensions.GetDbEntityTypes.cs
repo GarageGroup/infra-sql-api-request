@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 
 namespace GarageGroup.Infra;
 
 partial class SourceGeneratorExtensions
 {
-    internal static IReadOnlyCollection<DbEntityMetadata> GetDbEntityTypes(this GeneratorExecutionContext context)
+    internal static IReadOnlyCollection<DbEntityMetadata> GetDbEntityTypes(this Compilation compilation, CancellationToken cancellationToken)
     {
-        var visitor = new ExportedTypesCollector(context.CancellationToken);
-        visitor.VisitAssembly(context.Compilation.Assembly);
+        var visitor = new ExportedTypesCollector(cancellationToken);
+        visitor.VisitAssembly(compilation.Assembly);
 
         return visitor.GetNonPrivateTypes().Select(GetDbEntityMetadata).NotNull().ToArray();
     }
